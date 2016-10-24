@@ -1,6 +1,6 @@
 package com.maca.log;
 
-public interface Log {
+public interface MacaLogger {
 
 	public void error(Throwable e);
 

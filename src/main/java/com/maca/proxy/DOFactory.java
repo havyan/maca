@@ -22,7 +22,7 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.Factory;
 import net.sf.cglib.proxy.MethodInterceptor;
 
-public class DynamicObjectFactory2 {
+public class DOFactory {
 
 	private static Map<ProxyInfo, Class<?>> classCache = new HashMap<ProxyInfo, Class<?>>();
 

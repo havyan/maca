@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import com.maca.proxy.DynamicObjectFactory2;
+import com.maca.proxy.DOFactory;
 import com.maca.proxy.interfaces.Bean;
 
 /**
@@ -26,9 +26,9 @@ public class Test {
 	 */
 	public static void main(String[] args) throws Exception {
 		Person person = new Person();
-		person = DynamicObjectFactory2.createDynamicBeanObject(person);
-		DynamicObjectFactory2.createDynamicBeanObject(new Person());
-		DynamicObjectFactory2.createDynamicBeanObject(new Person());
+		person = DOFactory.createDynamicBeanObject(person);
+		DOFactory.createDynamicBeanObject(new Person());
+		DOFactory.createDynamicBeanObject(new Person());
 		person.setName("haowei");
 		person.setAge(27);
 		person.toString();

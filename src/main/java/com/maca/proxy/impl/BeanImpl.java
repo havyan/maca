@@ -15,7 +15,7 @@ import com.maca.events.ChangeEvent;
 import com.maca.events.ChangeListener;
 import com.maca.events.PropertyChangeListenerProxy;
 import com.maca.log.Logger;
-import com.maca.proxy.DynamicObjectFactory2;
+import com.maca.proxy.DOFactory;
 import com.maca.proxy.interfaces.AbstractBean;
 import com.maca.proxy.interfaces.Bean;
 import com.maca.proxy.interfaces.DynamicCollection;
@@ -97,7 +97,7 @@ public class BeanImpl extends AbstractBean<Object> implements ChangeListener {
 		if (value instanceof Bean) {
 			bean = (Bean) value;
 		} else {
-			bean = (Bean) DynamicObjectFactory2.createDynamicObject(value);
+			bean = (Bean) DOFactory.createDynamicObject(value);
 		}
 		if (bean instanceof DynamicCollection) {
 			DynamicCollection dynamicCollection = (DynamicCollection) bean;

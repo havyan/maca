@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.maca.mock.Person;
 import com.maca.mock.Profile;
-import com.maca.proxy.DynamicObjectFactory2;
+import com.maca.proxy.DOFactory;
 
 public class Test {
 
@@ -25,7 +25,7 @@ public class Test {
 		Profile profile = new Profile("e", 170, 140);
 		person.setProfile(profile);
 		profile.setPerson(person);
-		Person bean = DynamicObjectFactory2.createDynamicBeanObject(person);
+		Person bean = DOFactory.createDynamicBeanObject(person);
 		bean.getProfile().getPerson().setAge(45);;
 
 	}

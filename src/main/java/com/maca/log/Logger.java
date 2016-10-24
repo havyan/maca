@@ -9,9 +9,9 @@ package com.maca.log;
  */
 public class Logger {
 
-	private static Log log = new DefaultLog();
+	private static MacaLogger log = new DefaultMacaLogger();
 
-	public static void register(Log log) {
+	public static void register(MacaLogger log) {
 		Logger.log = log;
 	}
 

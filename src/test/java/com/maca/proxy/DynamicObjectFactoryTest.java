@@ -29,7 +29,7 @@ public class DynamicObjectFactoryTest extends TestCase {
 		profiles.add(profile4);
 		person.setProfiles(profiles);
 		person.setProfile(new Profile("e", 170, 140));
-		Person bean = DynamicObjectFactory2.createDynamicBeanObject(person);
+		Person bean = DOFactory.createDynamicBeanObject(person);
 		assertTrue(bean instanceof Bean);
 		assertTrue(bean.getProfile() instanceof Bean);
 		assertTrue(bean.getProfiles() instanceof DynamicCollection);
@@ -60,7 +60,7 @@ public class DynamicObjectFactoryTest extends TestCase {
 		Profile profile = new Profile("e", 170, 140);
 		person.setProfile(profile);
 		profile.setPerson(person);
-		Person bean = DynamicObjectFactory2.createDynamicBeanObject(person);
+		Person bean = DOFactory.createDynamicBeanObject(person);
 		bean.getProfile().setHeight(180);
 	}
 
@@ -72,7 +72,7 @@ public class DynamicObjectFactoryTest extends TestCase {
 		persons.add(new Person("Lisi", 16));
 		persons.add(new Person("Kobe", 17));
 		persons.add(new Person("James", 20));
-		List list = DynamicObjectFactory2.createDynamicListObject(persons);
+		List list = DOFactory.createDynamicListObject(persons);
 		assertTrue(list instanceof DynamicCollection);
 		assertTrue(list.get(0) instanceof Bean);
 		DynamicCollection dlist = (DynamicCollection) list;
@@ -90,7 +90,7 @@ public class DynamicObjectFactoryTest extends TestCase {
 
 	public void testEquals() {
 		Person person1 = new Person("Haowei", 31);
-		Person person2 = DynamicObjectFactory2.createDynamicBeanObject(person1);
+		Person person2 = DOFactory.createDynamicBeanObject(person1);
 		assertTrue(person2.equals(person1));
 	}
 
@@ -100,7 +100,7 @@ public class DynamicObjectFactoryTest extends TestCase {
 		list.add(person1);
 		Person person2 = new Person();
 		list.add(person2);
-		list = DynamicObjectFactory2.createDynamicObject(list);
+		list = DOFactory.createDynamicObject(list);
 		assertTrue(list.indexOf(person1) == 0);
 		assertTrue(list.indexOf(person2) == 1);
 	}
@@ -118,7 +118,7 @@ public class DynamicObjectFactoryTest extends TestCase {
 		profiles.add(profile4);
 		person1.setProfiles(profiles);
 		
-		Person bean = DynamicObjectFactory2.createDynamicBeanObject(person1);
+		Person bean = DOFactory.createDynamicBeanObject(person1);
 		Profile profile5 = new Profile("2", 170, 140);
 		bean.getProfiles().add(profile5);
 		Person person2 = (Person)(((Bean) bean).cloneSource());

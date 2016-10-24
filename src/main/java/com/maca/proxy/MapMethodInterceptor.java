@@ -125,7 +125,7 @@ public class MapMethodInterceptor extends DynamicMethodInterceptor {
 		if (target instanceof Bean) {
 			bean = target;
 		} else {
-			bean = DynamicObjectFactory2.createDynamicObject(target);
+			bean = DOFactory.createDynamicObject(target);
 		}
 		return bean;
 	}

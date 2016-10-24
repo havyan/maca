@@ -2,7 +2,7 @@ package com.maca.log;
 
 import java.util.Date;
 
-public class DefaultLog implements Log {
+public class DefaultMacaLogger implements MacaLogger {
 
 	public void error(Throwable e) {
 		e.printStackTrace();

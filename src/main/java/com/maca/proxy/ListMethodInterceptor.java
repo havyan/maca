@@ -120,7 +120,7 @@ public class ListMethodInterceptor extends DynamicMethodInterceptor {
 	}
 
 	protected Object convert2DynamicObject(Object target) {
-		Object result = DynamicObjectFactory2.createDynamicObject(target);
+		Object result = DOFactory.createDynamicObject(target);
 		if (result instanceof Bean) {
 			bindBean((Bean) result);
 		}
