@@ -8,4 +8,19 @@ Make Java Bean Observerable !!!
   * `SET`: fire when some elements are replaced
   * `ADD`: fire when some elements are added in the end
   * `CHANGE`: other events caused list change
+  
+  Define java interface:
+  ```java
+  public interface ListChangeListener {
+    public void elementAdded(ElementAddedEvent e);
+    
+    public void elementDeleted(ElementDeletedEvent e);
+    
+    public void elementReplaced(ElementReplacedEvent e);
+    
+    public void elementInserted(ElementInsertedEvent e);
+    
+    ... ...
+  }
+  ```
 3. Redefine `DynamicMap`: use proxy object to store elements, and store source map, generate change events by comparing source map and proxy map
