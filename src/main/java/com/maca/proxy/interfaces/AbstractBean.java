@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import com.maca.events.AdvancedPropertyChangeSupport;
-import com.maca.events.PropertyChangeListenerProxy;
-import com.maca.log.Logger;
 import com.maca.utils.MacaUtils;
+import com.maca.events.PropertyChangeListenerProxy;
+import com.maca.events.AdvancedPropertyChangeSupport;
+import com.maca.events.ChangeAdapter;
+import com.maca.events.ChangeEvent;
+import com.maca.log.Logger;
+import com.maca.proxy.DOFactory;
 
 public abstract class AbstractBean<T> implements Bean {
 
@@ -122,6 +125,35 @@ public abstract class AbstractBean<T> implements Bean {
 	@SuppressWarnings("unchecked")
 	public void setSource(Object source) {
 		this.source = (T) source;
+	}
+
+	protected Object convert2DynamicObject(Object target) {
+		return DOFactory.createDynamicObject(target);
+	}
+
+	protected void bindBean(String propertyName, Bean bean) {
+		if (bean != null) {
+			if (bean instanceof DynamicCollection) {
+				DynamicCollection dynamicCollection = (DynamicCollection) bean;
+				if (!dynamicCollection.hasChangeListenerFrom(this)) {
+					dynamicCollection.addChangeListener(new ChangeAdapter(this) {
+						public void change(ChangeEvent e) {
+							firePropertyChange(null, propertyName, null, e.getSource());
+						}
+					});
+				}
+			}
+			if (!bean.hasPropertyChangeListenerFrom(this)) {
+				bean.addPropertyChangeListener(new PropertyChangeListenerProxy(this) {
+					public void propertyChange(PropertyChangeEvent e) {
+						List<Object> chain = MacaUtils.getChain(e);
+						if (!chain.contains(source)) {
+							firePropertyChange(chain, propertyName + "." + e.getPropertyName(), e.getOldValue(), e.getNewValue());
+						}
+					}
+				});
+			}
+		}
 	}
 
 }

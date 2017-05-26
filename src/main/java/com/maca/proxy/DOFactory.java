@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.maca.log.Logger;
-import com.maca.proxy.impl.BeanImpl;
-import com.maca.proxy.impl.DynamicCollectionImpl;
-import com.maca.proxy.impl.DynamicMapImpl;
+import com.maca.proxy.impls.BeanImpl;
+import com.maca.proxy.impls.DynamicCollectionImpl;
+import com.maca.proxy.impls.DynamicMapImpl;
 import com.maca.proxy.interfaces.Bean;
 import com.maca.proxy.interfaces.DynamicCollection;
 import com.maca.proxy.interfaces.DynamicMap;
@@ -90,6 +90,9 @@ public class DOFactory {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T createDynamicObject(T target) {
+		if (target == null) {
+			return null;
+		}
 		if (target instanceof Bean || (target.getClass().isPrimitive() && Modifier.isFinal(target.getClass().getModifiers()))) {
 			return target;
 		} else {
