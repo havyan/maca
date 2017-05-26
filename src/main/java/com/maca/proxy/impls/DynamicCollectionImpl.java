@@ -121,7 +121,7 @@ public class DynamicCollectionImpl extends AbstractBean<Collection> implements D
 				if (!dynamicCollection.hasChangeListenerFrom(this)) {
 					dynamicCollection.addChangeListener(new ChangeAdapter(this) {
 						public void change(ChangeEvent e) {
-							int index = DynamicCollectionImpl.this.findIndex(source.toArray(), bean);
+							int index = findIndex(source.toArray(), bean);
 							firePropertyChange(null, index + "", null, e.getSource());
 						}
 					});
@@ -130,7 +130,7 @@ public class DynamicCollectionImpl extends AbstractBean<Collection> implements D
 			if (!bean.hasPropertyChangeListenerFrom(this)) {
 				bean.addPropertyChangeListener(new PropertyChangeListenerProxy(this) {
 					public void propertyChange(PropertyChangeEvent e) {
-						int index = DynamicCollectionImpl.this.findIndex(source.toArray(), bean);
+						int index = findIndex(source.toArray(), bean);
 						if (index != -1) {
 							List<Object> chain = MacaUtils.getChain(e);
 							if (!chain.contains(source)) {
