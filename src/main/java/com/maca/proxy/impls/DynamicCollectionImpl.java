@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.maca.utils.MacaUtils;
 import com.maca.events.ChangeAdapter;
 import com.maca.events.ChangeEvent;
 import com.maca.events.ChangeListener;
@@ -18,6 +17,7 @@ import com.maca.log.Logger;
 import com.maca.proxy.interfaces.AbstractBean;
 import com.maca.proxy.interfaces.Bean;
 import com.maca.proxy.interfaces.DynamicCollection;
+import com.maca.utils.MacaUtils;
 import com.rits.cloning.Cloner;
 
 import net.sf.cglib.proxy.MethodProxy;
@@ -51,11 +51,12 @@ public class DynamicCollectionImpl extends AbstractBean<Collection> implements D
 	@Override
 	public Object invoke(Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
 		Object[] beforeArray = this.proxy.toArray();
+		args = this.convertArgs(args, beforeArray);
 		Object result = methodProxy.invoke(this.proxy, args);
 		Object[] afterArray = this.proxy.toArray();
 		if (this.isDifferent(beforeArray, afterArray)) {
 			Logger.debug("List changed");
-			this.syncData();
+			this.syncData(afterArray);
 			this.handleRemoved(beforeArray, this.proxy);
 			Logger.debug("Fire list changed");
 			this.fireChange();
@@ -63,8 +64,7 @@ public class DynamicCollectionImpl extends AbstractBean<Collection> implements D
 		return result;
 	}
 
-	private void syncData() {
-		Object[] proxyArray = this.proxy.toArray();
+	private void syncData(Object[] proxyArray) {
 		Object[] sourceArray = new Object[proxyArray.length];
 		this.source.clear();
 		this.proxy.clear();
@@ -121,8 +121,7 @@ public class DynamicCollectionImpl extends AbstractBean<Collection> implements D
 				if (!dynamicCollection.hasChangeListenerFrom(this)) {
 					dynamicCollection.addChangeListener(new ChangeAdapter(this) {
 						public void change(ChangeEvent e) {
-							List<?> list = (List<?>) source;
-							int index = list.indexOf(bean);
+							int index = DynamicCollectionImpl.this.findIndex(source.toArray(), bean);
 							firePropertyChange(null, index + "", null, e.getSource());
 						}
 					});
@@ -131,8 +130,7 @@ public class DynamicCollectionImpl extends AbstractBean<Collection> implements D
 			if (!bean.hasPropertyChangeListenerFrom(this)) {
 				bean.addPropertyChangeListener(new PropertyChangeListenerProxy(this) {
 					public void propertyChange(PropertyChangeEvent e) {
-						List<?> list = (List<?>) source;
-						int index = list.indexOf(bean);
+						int index = DynamicCollectionImpl.this.findIndex(source.toArray(), bean);
 						if (index != -1) {
 							List<Object> chain = MacaUtils.getChain(e);
 							if (!chain.contains(source)) {

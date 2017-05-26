@@ -29,6 +29,7 @@ public class DynamicMapImpl extends AbstractBean<Map> implements DynamicMap {
 	public Object invoke(Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
 		Map beforeMap = (Map) MacaUtils.newInstance(this.source.getClass());
 		beforeMap.putAll(this.proxy);
+		args = this.convertArgs(args, this.proxy.values().toArray());
 		Object result = methodProxy.invoke(this.proxy, args);
 		if (this.isDifferent(beforeMap, this.proxy)) {
 			this.syncData();
