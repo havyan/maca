@@ -82,7 +82,7 @@ public class DOFactory {
 		DynamicObject[] impls = new DynamicObject[implClasses.length];
 		for (int i = 0; i < impls.length; i++) {
 			impls[i] = (DynamicObject) MacaUtils.newInstance(implClasses[i]);
-			impls[i].setSource(target);
+			impls[i].source(target);
 		}
 
 		return createDynamicObject(target, methodInterceptor, interfaces, impls);
